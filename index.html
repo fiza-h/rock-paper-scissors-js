@@ -3,8 +3,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div class="background">
+        <div class="round">
+            <h3>ROUND <span id="round">1</span></h3>
+        </div>
+        <div class="teams">
+            <div class="player">
+                <div class="heading">
+                    <h2 style="
+                    margin-top: 0px;
+                    margin-bottom: 0px;">Player</h2>
+                </div>
+                <div class="score">
+                    <h3>SCORE: <span id="p_score">0</span></h3>
+                </div>
+                <div class="buttons">
+                    <button id="rock">
+                        <span class="shadow"></span>
+                        <span class="edge"></span>
+                        <span class="front text"> Rock
+                        </span>
+                    </button>
+                    <button id="paper">
+                        <span class="shadow"></span>
+                        <span class="edge"></span>
+                        <span class="front text"> Paper
+                        </span>
+                    </button>
+                    <button id="scissors">
+                        <span class="shadow"></span>
+                        <span class="edge"></span>
+                        <span class="front text"> Scissors
+                        </span>
+                    </button>
+                </div>
+                <div class="playerChoice">
+                    <h2 id="move">CHOOSE YOUR MOVE</h2>
+                    <img id="displayImg" src="" alt="">
+                </div>
+            </div>
+            <div class="computer">
+                <div class="heading">
+                    <h2 style="
+                    margin-top: 0px;
+                    margin-bottom: 0px;">Computer</h2>
+                </div>
+                <div class="score">
+                    <h3>SCORE: <span id="c_score">0</span></h3>
+                </div>
+                <div class="computerChoice">
+                    <img id="computerDisplay" src="" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="result">
+            <h5 id="result"></h5>
+        </div>
+    </div>
+
+
     <script src="script.js"></script>
 </body>
 </html>
