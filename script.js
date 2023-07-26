@@ -5,61 +5,60 @@ const paperBtn = document.getElementById("paper");
 const scissorBtn = document.getElementById("scissors");
 let gameResult = document.getElementById("result");
 let chooseMove = document.getElementById("move");
+let player_score_display = document.getElementById('p_score');
+let computer_score_display = document.getElementById('c_score');
+let round_count = document.getElementById('round');
 
 let computerSelection;
 let playerSelection;
+
+let rockIsClicked = false;
+let paperIsClicked = false;
+let scissorIsClicked = false;
 
 let level; //keeps track of level
 let p_score = 0 //player score
 let c_score = 0 //computer score
 
-rockBtn.addEventListener('click', function() {
-    console.log("Button clicked")
-    chooseMove.textContent = "";
-    displayImg.style.display = "flex";
-    displayImg.src = "Untitled design (2)/p_rock.png";
-    playerSelection = "rock";
-    computerSelection = getComputerChoice();
-    showComputerChoice();
-    computerDisplay.style.display = "flex";
-});
-
-paperBtn.addEventListener('click', function() {
-    console.log("Button clicked")
-    chooseMove.textContent = "";
-    displayImg.style.display = "flex";
-    displayImg.src = "Untitled design (2)/p_paper.png";
-    playerSelection = "paper";
-    computerSelection = getComputerChoice();
-    showComputerChoice();
-    computerDisplay.style.display = "flex";
-});
-
-scissorBtn.addEventListener('click', function() {
-    console.log("Button clicked")
-    chooseMove.textContent = "";
-    displayImg.style.display = "flex";
-    displayImg.src = "Untitled design (2)/p_scissor.png";
-    playerSelection = "scissor";
-    computerSelection = getComputerChoice();
-    showComputerChoice();
-    computerDisplay.style.display = "flex";
-});
-
 function showComputerChoice() {
     if (computerSelection=="rock") {
         computerDisplay.src = "Untitled design (2)/c_rock.png";
+        computerDisplay.style.display = "flex";
     }
     else if (computerSelection=="paper") {
         computerDisplay.src = "Untitled design (2)/c_paper.png";
+        computerDisplay.style.display = "flex";
     }
     else if (computerSelection=="scissor") {
         computerDisplay.src = "Untitled design (2)/c_scissor.png";
+        computerDisplay.style.display = "flex";
     }
+}
 
-    let result = playRound(playerSelection, computerSelection);
-    console.log(result);
-    gameResult.textContent = result;
+function showPlayerChoice() {
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(button => button.addEventListener('click', clickListener));
+
+    if (rockIsClicked == true) {
+        playerSelection = "rock";
+        chooseMove.textContent = "";
+        displayImg.src = "Untitled design (2)/p_rock.png";
+        displayImg.style.display = "flex";
+        console.log('function works');
+    }
+    else if (paperIsClicked == true) {
+        playerSelection = "paper";
+        chooseMove.textContent = "";
+        displayImg.src = "Untitled design (2)/p_paper.png";
+        displayImg.style.display = "flex";
+    }
+    else if (scissorIsClicked == true) {
+        playerSelection = "scissor";
+        chooseMove.textContent = "";
+        displayImg.src = "Untitled design (2)/p_scissor.png";
+        displayImg.style.display = "flex";
+    }
+    showComputerChoice();
 }
 
 function getComputerChoice() {
@@ -72,10 +71,6 @@ function getComputerChoice() {
     }
     else return "scissor";
 }
-
-// // function playerSelection() {
-// //     return prompt("Rock, Paper or Scissors: ").toLowerCase();
-// // }
 
 function playRound(playerSelection, computerSelection) {
     if ((computerSelection == "rock" && playerSelection == "scissor") || 
@@ -100,34 +95,45 @@ function capitalizeFirstLetter(inputString) {
 }
 
 function game() {
-    for (level = 0; level <= 5; level++) {
+    for (level = 1; level <= 5; level++) {
+        // let computerSelection = getComputerChoice();
+        // let playerOption = playerSelection();
+        round_count.textContent = level;
+        showPlayerChoice(); //will update player and computer choice both
+        if (rockIsClicked==true || paperIsClicked==true || scissorIsClicked==true) {
+            console.log("Computer Selection: " + computerSelection);
+            console.log("Player Selection: " + playerSelection);
+            let result = playRound(playerSelection, computerSelection);
+            console.log(result);
+            gameResult.textContent = result;
 
-        let computerSelection = getComputerChoice();
-        let playerOption = playerSelection();
-        console.log("Computer Selection: " + computerSelection);
-        console.log("Player Selection: " + playerOption);
-        let result = playRound(playerOption, computerSelection);
-        console.log(result);
-
-        if (scoreChecker(result) == 0) {
-            p_score++;
+            if (scoreChecker(result) == 0) {
+                p_score++;
+            }
+            else if (scoreChecker(result) == 1) {
+                c_score++;
+            }
+            else if (scoreChecker(result) == 2) {
+                c_score++;
+                p_score++;
+            }
+            player_score_display.textContent = p_score;
+            computer_score_display.textContent = c_score;
+            console.log("Player Score: " + p_score);
+            console.log("Computer Score: " + c_score);
         }
-        else if (scoreChecker(result) == 1) {
-            c_score++;
-        }
-        else if (scoreChecker(result) == 2) {
-            c_score++;
-            p_score++;
-        }
-        console.log("Player Score: " + p_score);
-        console.log("Computer Score: " + c_score);
+        rockIsClicked=false;
+        paperIsClicked=false;
+        scissorIsClicked=false;
     }
 
     if (p_score > c_score) {
         console.log("You Win the Game! Yay")
+        gameResult.textContent = "You Win the Game! Yay";
     }
     else if (c_score > p_score) {
         console.log("Oops! you Lost the game")
+        gameResult.textContent = "Oops! you Lost the game";
     }
     
 }
@@ -144,4 +150,27 @@ function scoreChecker(string) {
     }
 }
 
-// game();
+function clickListener(e) {
+    let clickedText = e.target.textContent;
+    console.log(clickedText);
+    if (clickedText=="Rock") {
+        rockIsClicked = true;
+        paperIsClicked = false;
+        scissorIsClicked = false;
+    }
+    else if (clickedText=="Paper") {
+        rockIsClicked = false;
+        paperIsClicked = true;
+        scissorIsClicked = false;
+    }
+    else if (clickedText=="Scissors") {
+        rockIsClicked = false;
+        paperIsClicked = false;
+        scissorIsClicked = true;
+    }
+    console.log(rockIsClicked);
+    console.log(paperIsClicked);
+    console.log(scissorIsClicked);
+}
+
+game();
