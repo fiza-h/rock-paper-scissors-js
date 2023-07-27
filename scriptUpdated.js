@@ -1,11 +1,14 @@
 const rockBtn = document.getElementById("rock");
 const paperBtn = document.getElementById("paper");
 const scissorBtn = document.getElementById("scissors");
-let gameResult = document.getElementById("result");
+let roundResult = document.getElementById("result");
+let gameResult = document.getElementById("gameResult");
 let chooseMove = document.getElementById("move");
 let player_score_display = document.getElementById('p_score');
 let computer_score_display = document.getElementById('c_score');
 let round_count = document.getElementById('round');
+let background = document.querySelector(".background"); // Use querySelector to get the first element with the class "background"
+let resultScreen = document.querySelector(".resultScreen");
 
 let computerSelection;
 let playerSelection;
@@ -48,6 +51,10 @@ function clickListener(e) {
     if (rockIsClicked==true || paperIsClicked==true || scissorIsClicked==true) {
         game();
     }
+
+    rockIsClicked = false;
+    paperIsClicked = false;
+    scissorIsClicked = false;
 }
 
 function game() {
@@ -58,7 +65,7 @@ function game() {
         showComputerChoice(); //only display computer image
         let result = playRound(playerSelection, computerSelection);
         console.log(result);
-        gameResult.textContent = result;
+        roundResult.textContent = result;
 
         if (scoreChecker(result) == 0) {
             p_score++;
@@ -66,26 +73,50 @@ function game() {
         else if (scoreChecker(result) == 1) {
             c_score++;
         }
-        else if (scoreChecker(result) == 2) {
-            c_score++;
-            p_score++;
-        }
+        // else if (scoreChecker(result) == 2) {
+        //     c_score++;
+        //     p_score++;
+        // }
         player_score_display.textContent = p_score;
         computer_score_display.textContent = c_score;
 
         level++;
     }
 
-    if (level==6) {
-        if (p_score > c_score) {
-            console.log("You Win the Game! Yay")
-            gameResult.textContent = "You Win the Game! Yay";
+    setTimeout(function() {
+        if (level==6) {
+            background.style.display = "none";
+            resultScreen.style.display = "flex";
+            if (p_score > c_score) {
+                console.log("You Win the Game! Yay")
+                gameResult.textContent = "You Win the Game! Yay";
+            }
+            else if (c_score > p_score) {
+                console.log("Oops! you Lost the game")
+                gameResult.textContent = "Oops! you Lost the game";
+            }
+            const resetBtn = document.getElementById("reset");
+            resetBtn.addEventListener('click', resetGame);
         }
-        else if (c_score > p_score) {
-            console.log("Oops! you Lost the game")
-            gameResult.textContent = "Oops! you Lost the game";
-        }
-    }
+    }, 4500);
+}
+
+function resetGame(e) {
+    level = 1;
+    round_count.textContent = 1;
+    p_score = 0;
+    player_score_display.textContent = 0;
+    c_score = 0;
+    computer_score_display.textContent = 0;
+    rockIsClicked = false;
+    paperIsClicked = false;
+    scissorIsClicked = false;
+    chooseMove.textContent = "CHOOSE YOUR MOVE";
+    displayImg.style.display = "none";
+    computerDisplay.style.display = "none";
+    background.style.display = "flex";
+    resultScreen.style.display = "none";    
+    roundResult.textContent = "";
 }
 
 function showPlayerChoice() {
