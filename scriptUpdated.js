@@ -22,8 +22,8 @@ let p_score = 0 //player score
 let c_score = 0 //computer score
 
 //first listen for clicks
-const buttons = document.querySelectorAll("button");
-buttons.forEach(button => button.addEventListener('click', clickListener));
+const clickButtons = document.querySelectorAll("button");
+clickButtons.forEach(button => button.addEventListener('click', clickListener));
 
 //checks which button is clicked
 function clickListener(e) {
